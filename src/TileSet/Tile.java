@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Tile {
     //North is 0, East is 1, South is 2, West is 3
-    ArrayList<TYPE> faces = new ArrayList<TYPE>();
-    boolean monastery, connectedCity, shield;
+    ArrayList<TYPE> faces = new ArrayList<>();
+    boolean monastery, connectedCity, shield, roadEnd;
     Tile northConnect, eastConnect, southConnect, westConnect;
     int[] coords = {0,0};
 
@@ -19,7 +19,7 @@ public class Tile {
     }
 
     //Complete Constructor
-    public Tile(TYPE north, TYPE east, TYPE south, TYPE west, boolean monastery, boolean connectedCity, boolean shield) {
+    public Tile(TYPE north, TYPE east, TYPE south, TYPE west, boolean monastery, boolean connectedCity, boolean shield, boolean roadEnd) {
         this.faces.add(north);
         this.faces.add(east);
         this.faces.add(south);
@@ -27,6 +27,7 @@ public class Tile {
         this.monastery = monastery;
         this.connectedCity = connectedCity;
         this.shield = shield;
+        this.roadEnd = roadEnd;
     }
 
 

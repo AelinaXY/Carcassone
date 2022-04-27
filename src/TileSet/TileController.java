@@ -37,7 +37,8 @@ public class TileController {
                         TYPE.valueOf(values[3].toUpperCase(Locale.ROOT)),
                         Boolean.parseBoolean(values[4]),
                         Boolean.parseBoolean(values[5]),
-                        Boolean.parseBoolean(values[6])));
+                        Boolean.parseBoolean(values[6]),
+                        Boolean.parseBoolean(values[7])));
             }
         }
         catch (Exception e){
@@ -108,7 +109,6 @@ public class TileController {
                     {
                         tileFlag = false;
                         System.out.println("South side of placed Tile does not connect to North side of tile on the ground");
-                        continue;
                     }
                     else
                     {
@@ -171,9 +171,9 @@ public class TileController {
     {
         ArrayList<int []> returnArrayList = new ArrayList<>();
         returnArrayList.add(new int[]{coords[0] + 1, coords[1]});
-        returnArrayList.add(new int[]{coords[0] + -1, coords[1]});
+        returnArrayList.add(new int[]{coords[0] - 1, coords[1]});
         returnArrayList.add(new int[]{coords[0], coords[1] + 1});
-        returnArrayList.add(new int[]{coords[0], coords[1] + -1});
+        returnArrayList.add(new int[]{coords[0], coords[1] - 1});
         return returnArrayList;
     }
 
