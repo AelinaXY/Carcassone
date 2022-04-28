@@ -2,6 +2,7 @@ package TileSet;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -181,5 +182,18 @@ public class TileController {
 
     public ArrayList<Tile> getTileDeck() {
         return tileDeck;
+    }
+
+    public void placeMeeple(int[] coords, Meeple meeple, int side)
+    {
+        if(tileBoard.stream().noneMatch((a -> Arrays.equals(a.getCoords(), coords))))
+        {
+            System.out.println("INVALID INPUT COORDINATES");
+        }
+        else
+        {
+            Tile tile = tileBoard.stream().filter(a -> Arrays.equals(a.getCoords(), coords)).findFirst().get();
+            meeple.addMeepleToTile(tile, side);
+        }
     }
 }

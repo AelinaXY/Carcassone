@@ -22,22 +22,34 @@ public class Main {
 //        System.out.println(tile2.toConnectString());
 //        System.out.println(tile3.toConnectString());
 
+        Player test = new Player(1);
         TileController controller = new TileController();
-        Tile i = controller.drawTile();
-        while(i != null) {
-//            cout++;
-//            System.out.println(cout + ":\t" + i);
-            int rand = ThreadLocalRandom.current().nextInt(0,controller.getValidPlacements().size());
-            if(controller.placeTileBoard(i, new int[]{controller.getValidPlacements().get(rand)[0],controller.getValidPlacements().get(rand)[1]}))
-            {
-                System.out.println(i.toString());
-            }
-            else
-            {
-                controller.returnTile(i);
-            }
-            i = controller.drawTile();
-        }
+        controller.placeTileBoard(new Tile(TYPE.FIELD,TYPE.ROAD,TYPE.FIELD,TYPE.ROAD,false,false,false,true), new int[]{1, 0});
+        controller.placeTileBoard(new Tile(TYPE.FIELD,TYPE.ROAD,TYPE.ROAD,TYPE.FIELD,false,false,false,false), new int[]{-1, 0});
+        controller.placeTileBoard(new Tile(TYPE.ROAD,TYPE.ROAD,TYPE.FIELD,TYPE.FIELD,false,false,false,false), new int[]{-1, -1});
+        controller.placeTileBoard(new Tile(TYPE.FIELD,TYPE.ROAD,TYPE.FIELD,TYPE.ROAD,false,false,false,false), new int[]{0, -1});
+        controller.placeTileBoard(new Tile(TYPE.FIELD,TYPE.ROAD,TYPE.FIELD,TYPE.ROAD,false,false,false,true), new int[]{1, -1});
+
+
+        controller.placeMeeple(new int[]{-1,0},test.getFirstFreeMeeple(),2);
+//        Tile i = controller.drawTile();
+//        int cout = 0;
+//        while(i != null) {
+////            cout++;
+////            System.out.println(cout + ":\t" + i);
+//            int rand = ThreadLocalRandom.current().nextInt(0,controller.getValidPlacements().size());
+//            if(controller.placeTileBoard(i, new int[]{controller.getValidPlacements().get(rand)[0],controller.getValidPlacements().get(rand)[1]}))
+//            {
+//                System.out.println(i.toString());
+//            }
+//            else
+//            {
+//                controller.returnTile(i);
+//                cout++;
+//            }
+//            if (cout > 1000){break;}
+//            i = controller.drawTile();
+//        }
         System.out.println("DONE");
     }
 }
