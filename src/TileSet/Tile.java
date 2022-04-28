@@ -8,6 +8,7 @@ public class Tile {
     boolean monastery, connectedCity, shield, roadEnd;
     Tile northConnect, eastConnect, southConnect, westConnect;
     int[] coords = {0,0};
+    Meeple meeple = null;
 
 
     //Empty Constructor to be used as a default
@@ -214,6 +215,32 @@ public class Tile {
         }
 
         return out.toString();
+    }
+
+    public void setMeeple(Meeple meeple) {
+        this.meeple = meeple;
+    }
+
+    public boolean hasMonastry() {
+        return this.monastery;
+    }
+
+    public boolean isRoadEnd(){return this.roadEnd;}
+
+    public Tile getNorthConnect() {
+        return northConnect;
+    }
+
+    public Tile getEastConnect() {
+        return eastConnect;
+    }
+
+    public Tile getSouthConnect() {
+        return southConnect;
+    }
+
+    public Tile getWestConnect() {
+        return westConnect;
     }
 }
 
