@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class Tile {
     //North is 0, East is 1, South is 2, West is 3
-    ArrayList<TYPE> faces = new ArrayList<>();
-    boolean monastery, connectedCity, shield, roadEnd;
-    Tile northConnect, eastConnect, southConnect, westConnect;
-    int[] coords = {0,0};
-    Meeple meeple = null;
+    private ArrayList<TYPE> faces = new ArrayList<>();
+    private boolean monastery, connectedCity, shield, roadEnd;
+    private Tile northConnect, eastConnect, southConnect, westConnect;
+    private int[] coords = {0, 0};
+    private Meeple meeple = null;
 
 
     //Empty Constructor to be used as a default
@@ -159,6 +159,16 @@ public class Tile {
         return faces.get(3);
     }
 
+    public TYPE getSide(int i)
+    {
+        if (i < 4 && i > -1)
+        {
+            return faces.get(i);
+        }
+        return null;
+    }
+
+
     public void setCoordsX(int coords) {
         this.coords[0] = coords;
     }
@@ -225,7 +235,9 @@ public class Tile {
         return this.monastery;
     }
 
-    public boolean isRoadEnd(){return this.roadEnd;}
+    public boolean isRoadEnd() {
+        return this.roadEnd;
+    }
 
     public Tile getNorthConnect() {
         return northConnect;
@@ -241,6 +253,17 @@ public class Tile {
 
     public Tile getWestConnect() {
         return westConnect;
+    }
+
+
+    public Tile getConnect(int i) {
+        return switch (i) {
+            case 0 -> northConnect;
+            case 1 -> eastConnect;
+            case 2 -> southConnect;
+            case 3 -> westConnect;
+            default -> null;
+        };
     }
 }
 

@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Player {
 
-    ArrayList<Meeple> playerMeeples = new ArrayList<>();
-    int playerNumber;
+    private ArrayList<Meeple> playerMeeples = new ArrayList<>();
+    private int playerNumber;
 
     public Player(int playerNumber) {
         this.playerNumber = playerNumber;
