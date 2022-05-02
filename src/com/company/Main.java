@@ -1,10 +1,9 @@
 package com.company;
 
-import TileSet.*;
-
-import java.util.Collections;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
+import TileSet.Player;
+import TileSet.TYPE;
+import TileSet.Tile;
+import TileSet.TileController;
 
 public class Main {
 
@@ -22,6 +21,7 @@ public class Main {
 //        System.out.println(tile2.toConnectString());
 //        System.out.println(tile3.toConnectString());
 
+//        int cout = 0;
         Player test = new Player(1);
         TileController controller = new TileController();
         controller.placeTileBoard(new Tile(TYPE.FIELD,TYPE.ROAD,TYPE.FIELD,TYPE.ROAD,false,false,false,true), new int[]{1, 0});
@@ -33,7 +33,6 @@ public class Main {
 
         controller.placeMeeple(new int[]{-1,0},test.getFirstFreeMeeple(),2);
 //        Tile i = controller.drawTile();
-//        int cout = 0;
 //        while(i != null) {
 ////            cout++;
 ////            System.out.println(cout + ":\t" + i);

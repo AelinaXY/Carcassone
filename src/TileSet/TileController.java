@@ -2,18 +2,16 @@ package TileSet;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 public class TileController {
 
-    ArrayList<Tile> tileDeck = new ArrayList<>();
-    ArrayList<Tile> tileBoard = new ArrayList<>();
-    ArrayList<int[]> validPlacements = new ArrayList<>();
+    private ArrayList<Tile> tileDeck = new ArrayList<>();
+    private ArrayList<Tile> tileBoard = new ArrayList<>();
+    private ArrayList<int[]> validPlacements = new ArrayList<>();
 
     public TileController(){
         parseInputCSV();
@@ -163,6 +161,10 @@ public class TileController {
         tileDeck.add(i);
     }
 
+    public int getTileDeckSize()
+    {
+        return tileDeck.size();
+    }
 
     public ArrayList<int[]> getValidPlacements()
     {
@@ -194,6 +196,7 @@ public class TileController {
         {
             Tile tile = tileBoard.stream().filter(a -> Arrays.equals(a.getCoords(), coords)).findFirst().get();
             meeple.addMeepleToTile(tile, side);
+            System.out.println("MEEPLE ADDED");
         }
     }
 }

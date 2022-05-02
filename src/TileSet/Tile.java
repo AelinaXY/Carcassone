@@ -53,7 +53,7 @@ public class Tile {
 
     //Add cardinal connections
     public void addNorthConnection(Tile northConnect) {
-        if (this.hasNorthConnect() && northConnect.hasSouthConnect()) {
+        if (!this.hasNorthConnect() && !northConnect.hasSouthConnect()) {
             if (this.faces.get(0) == northConnect.getSouthSide()) {
                 this.northConnect = northConnect;
                 northConnect.reverseLinkSouth(this);
@@ -67,7 +67,7 @@ public class Tile {
     }
 
     public void addEastConnection(Tile eastConnect) {
-        if (this.hasEastConnect() && eastConnect.hasWestConnect()) {
+        if (!this.hasEastConnect() && !eastConnect.hasWestConnect()) {
             if (this.faces.get(1) == eastConnect.getWestSide()) {
                 this.eastConnect = eastConnect;
                 eastConnect.reverseLinkWest(this);
@@ -80,7 +80,7 @@ public class Tile {
     }
 
     public void addSouthConnection(Tile southConnect) {
-        if (this.hasSouthConnect() && southConnect.hasNorthConnect()) {
+        if (!this.hasSouthConnect() && !southConnect.hasNorthConnect()) {
             if (this.faces.get(2) == southConnect.getNorthSide()) {
                 this.southConnect = southConnect;
                 southConnect.reverseLinkNorth(this);
@@ -95,7 +95,7 @@ public class Tile {
     }
 
     public void addWestConnection(Tile westConnect) {
-        if (this.hasWestConnect() && westConnect.hasEastConnect()) {
+        if (!this.hasWestConnect() && !westConnect.hasEastConnect()) {
             if (this.faces.get(3) == westConnect.getEastSide()) {
                 this.westConnect = westConnect;
                 westConnect.reverseLinkEast(this);
@@ -127,19 +127,19 @@ public class Tile {
 
     //Checks if a connection has been made
     public boolean hasNorthConnect() {
-        return this.northConnect == null;
+        return this.northConnect != null;
     }
 
     public boolean hasEastConnect() {
-        return this.eastConnect == null;
+        return this.eastConnect != null;
     }
 
     public boolean hasSouthConnect() {
-        return this.southConnect == null;
+        return this.southConnect != null;
     }
 
     public boolean hasWestConnect() {
-        return this.westConnect == null;
+        return this.westConnect != null;
     }
 
     //Getters for Sides
@@ -231,7 +231,7 @@ public class Tile {
         this.meeple = meeple;
     }
 
-    public boolean hasMonastry() {
+    public boolean hasMonastery() {
         return this.monastery;
     }
 

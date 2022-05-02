@@ -67,7 +67,27 @@ public class Meeple {
                 break;
 
             case FIELD:
-                System.out.println("FIELD SWITCH");
+                if (tile.hasMonastery())
+                {
+                    if(tile.hasNorthConnect() &&
+                            tile.hasEastConnect() &&
+                            tile.hasSouthConnect() &&
+                            tile.hasWestConnect())
+                    {
+                        if (tile.getNorthConnect().hasEastConnect() &&
+                                tile.getNorthConnect().hasWestConnect() &&
+                                tile.getSouthConnect().hasEastConnect() &&
+                                tile.getSouthConnect().hasWestConnect())
+                        {
+                            System.out.println("MONASTERY COMPLETE SWITCH");
+                            break;
+                        }
+                    }
+                    this.placedTile = tile;
+                    tile.setMeeple(this);
+                    System.out.println("MONASTERY INCOMPLETE SWITCH");
+                }
+
                 break;
         }
 
