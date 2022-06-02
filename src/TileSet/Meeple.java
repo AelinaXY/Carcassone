@@ -18,26 +18,6 @@ public class Meeple {
         return (i+2)%4;
     }
 
-    private int checkEndCityPoints(Tile tile, int total)
-    {
-        cityTileList.add(tile);
-
-        if (tile == null) return ++total;
-
-        if (!tile.hasConnectedCity()) return total;
-
-        for(int i = 0; i<4; i++)
-        {
-            if(tile.getSide(i) == TYPE.CITY && !cityTileList.contains(tile.getConnect(i)))
-            {
-
-                total = checkEndCityPoints(tile.getConnect(i), total);
-            }
-        }
-
-        return total;
-
-    }
     public boolean addMeepleToTile(Tile tile, int direction)
     {
         int total = 0;
@@ -45,24 +25,30 @@ public class Meeple {
             case CITY:
                 if(tile.hasConnectedCity())
                 {
+                    if (tile.getWestSide() == TYPE.CITY) {
+                        total += checkEndCityPoints(tile.getWestConnect(), total);
+                    }
 
+                    if (tile.getEastSide() == TYPE.CITY) {
+                        total += checkEndCityPoints(tile.getEastConnect(), total);
+                    }
+
+                    if (tile.getSouthSide() == TYPE.CITY) {
+                        total += checkEndCityPoints(tile.getSouthConnect(), total);
+                    }
+
+                    if (tile.getNorthSide() == TYPE.CITY) {
+                        total += checkEndCityPoints(tile.getNorthConnect(), total);
+                    }
+
+                    if (cityTotalCheck(total, tile, direction)) return true;
                 }
 
                 else
                 {
                     total = checkEndCityPoints(tile.getConnect(direction), 0);
 
-                    if(total == 0)
-                    {
-                        System.out.println("CITY COMPLETE SWITCH");
-                    }
-                    else
-                    {
-                        this.placedTile = tile;
-                        tile.setMeeple(this, direction);
-                        System.out.println("CITY INCOMPLETE SWITCH");
-                        return true;
-                    }
+                    if (cityTotalCheck(total, tile, direction)) return true;
                 }
                 break;
 
@@ -141,6 +127,22 @@ public class Meeple {
 
     }
 
+    private boolean cityTotalCheck(int total, Tile tile, int direction) {
+
+        if(total == 0)
+        {
+            System.out.println("CITY COMPLETE SWITCH");
+        }
+        else
+        {
+            this.placedTile = tile;
+            tile.setMeeple(this, direction);
+            System.out.println("CITY INCOMPLETE SWITCH");
+            return true;
+        }
+        return false;
+    }
+
     private int checkEndRoadPoints(Tile tile, int sideCameFrom, int total)
     {
         if (tile == null) return total;
@@ -152,6 +154,27 @@ public class Meeple {
             if(tile.getSide(i) == TYPE.ROAD && sideCameFrom != i)
             {
                 total = checkEndRoadPoints(tile.getConnect(i), oppositeDirection(i), total);
+            }
+        }
+
+        return total;
+
+    }
+
+    private int checkEndCityPoints(Tile tile, int total)
+    {
+        cityTileList.add(tile);
+
+        if (tile == null) return ++total;
+
+        if (!tile.hasConnectedCity()) return total;
+
+        for(int i = 0; i<4; i++)
+        {
+            if(tile.getSide(i) == TYPE.CITY && !cityTileList.contains(tile.getConnect(i)))
+            {
+
+                total = checkEndCityPoints(tile.getConnect(i), total);
             }
         }
 
