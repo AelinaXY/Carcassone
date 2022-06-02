@@ -195,8 +195,14 @@ public class TileController {
         else
         {
             Tile tile = tileBoard.stream().filter(a -> Arrays.equals(a.getCoords(), coords)).findFirst().get();
-            meeple.addMeepleToTile(tile, side);
-            System.out.println("MEEPLE ADDED");
+            if(meeple.addMeepleToTile(tile, side))
+            {
+                System.out.println("MEEPLE ADDED");
+            }
+            else
+            {
+                System.out.println("MEEPLE NOT ADDED");
+            }
         }
     }
 }

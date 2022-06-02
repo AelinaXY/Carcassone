@@ -9,6 +9,7 @@ public class Tile {
     private Tile northConnect, eastConnect, southConnect, westConnect;
     private int[] coords = {0, 0};
     private Meeple meeple = null;
+    private Meeple[] placedMeeples = {null, null, null, null};
 
 
     //Empty Constructor to be used as a default
@@ -159,10 +160,8 @@ public class Tile {
         return faces.get(3);
     }
 
-    public TYPE getSide(int i)
-    {
-        if (i < 4 && i > -1)
-        {
+    public TYPE getSide(int i) {
+        if (i < 4 && i > -1) {
             return faces.get(i);
         }
         return null;
@@ -227,8 +226,10 @@ public class Tile {
         return out.toString();
     }
 
-    public void setMeeple(Meeple meeple) {
-        this.meeple = meeple;
+    public void setMeeple(Meeple meeple, int direction) {
+        if (direction >= 0 && direction <= 3) {
+            this.placedMeeples[direction] = meeple;
+        }
     }
 
     public boolean hasMonastery() {
@@ -237,6 +238,10 @@ public class Tile {
 
     public boolean isRoadEnd() {
         return this.roadEnd;
+    }
+
+    public boolean hasConnectedCity(){
+        return this.connectedCity;
     }
 
     public Tile getNorthConnect() {
