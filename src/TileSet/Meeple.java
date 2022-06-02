@@ -163,7 +163,7 @@ public class Meeple {
 
     private int checkEndCityPoints(Tile tile, int total)
     {
-        cityTileList.add(tile);
+        if(!cityTileList.contains(tile)) cityTileList.add(tile);
 
         if (tile == null) return ++total;
 
