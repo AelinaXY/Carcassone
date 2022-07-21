@@ -203,6 +203,19 @@ public class Tile {
                 '}';
     }
 
+    public String toOutputString() {
+
+        return "Tile{" +
+                " Faces: [North=" + faces.get(0) +
+                ", East=" + faces.get(1) +
+                ", South=" + faces.get(2) +
+                ", West=" + faces.get(3) +
+                "], monastery=" + monastery +
+                ", connectedCity=" + connectedCity +
+                ", shield=" + shield +
+                '}';
+    }
+
     //Convert a tile objects connections to strings for easier viewing
     public String toConnectString() {
         ArrayList<String> out = new ArrayList<>();
@@ -230,6 +243,29 @@ public class Tile {
         if (direction >= 0 && direction <= 3) {
             this.placedMeeples[direction] = meeple;
         }
+    }
+
+    public void freeMeeple(Meeple meeple)
+    {
+        for (int i = 0; i <placedMeeples.length;i++)
+        {
+            if(meeple.equals(placedMeeples[i]))
+            {
+                placedMeeples[i] = null;
+            }
+        }
+    }
+
+    public int getMeepleDirection(Meeple meeple)
+    {
+        for (int i = 0; i <placedMeeples.length;i++)
+        {
+            if(meeple.equals(placedMeeples[i]))
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public boolean hasMonastery() {

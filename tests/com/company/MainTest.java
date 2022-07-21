@@ -231,4 +231,25 @@ class MainTest {
         assertEquals("CITY INCOMPLETE SWITCH\r\nMEEPLE ADDED", outputStreamCaptor.toString().trim());
         System.setOut(standardOut);
     }
+
+
+    @Test
+    void integrationTestCityMeepleScoring() {
+        Player test = new Player(1);
+        TileController controller = new TileController();
+        //Cannot place -1 first so 0 is used first
+        controller.placeTileBoard(new Tile(TYPE.CITY, TYPE.CITY, TYPE.CITY, TYPE.CITY, false, true, false, false), new int[]{0, 1});
+        controller.placeTileBoard(new Tile(TYPE.CITY, TYPE.FIELD, TYPE.FIELD, TYPE.CITY, false, true, false, false), new int[]{1, 1});
+        controller.placeTileBoard(new Tile(TYPE.CITY, TYPE.CITY, TYPE.FIELD, TYPE.FIELD, false, true, false, false), new int[]{-1, 1});
+        controller.placeTileBoard(new Tile(TYPE.CITY, TYPE.CITY, TYPE.CITY, TYPE.FIELD, false, true, false, false), new int[]{-1, 2});
+        controller.placeTileBoard(new Tile(TYPE.CITY, TYPE.FIELD, TYPE.CITY, TYPE.CITY, false, true, false, false), new int[]{1, 2});
+        controller.placeTileBoard(new Tile(TYPE.FIELD, TYPE.CITY, TYPE.CITY, TYPE.FIELD, false, true, false, false), new int[]{-1, 3});
+        controller.placeTileBoard(new Tile(TYPE.FIELD, TYPE.CITY, TYPE.CITY, TYPE.CITY, false, true, false, false), new int[]{0, 3});
+        controller.placeTileBoard(new Tile(TYPE.FIELD, TYPE.FIELD, TYPE.CITY, TYPE.CITY, false, true, false, false), new int[]{1, 3});
+        controller.placeMeeple(new int[]{0, 1}, test.getFirstFreeMeeple(), 2);
+        controller.placeTileBoard(new Tile(TYPE.CITY, TYPE.CITY, TYPE.CITY, TYPE.CITY, false, true, false, false), new int[]{0, 2});
+        test.updateMeeples();
+        assertEquals("CITY INCOMPLETE SWITCH\r\nMEEPLE ADDED\r\nSUCCESSFUL PLACEMENT", outputStreamCaptor.toString().trim());
+        System.setOut(standardOut);
+    }
 }

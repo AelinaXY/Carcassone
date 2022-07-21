@@ -205,4 +205,14 @@ public class TileController {
             }
         }
     }
+
+    public String getValidPlacementsToString()
+    {
+        String placements = "";
+        for(int[] coord: validPlacements)
+        {
+            placements = placements + "[" + coord[0] + "," + coord[1] + "] ";
+        }
+        return placements;
+    }
 }

@@ -6,6 +6,7 @@ public class Meeple {
     private Player owner;
     private Tile placedTile;
     private ArrayList<Tile> cityTileList = new ArrayList<>();
+    private boolean completedFeature = false;
 
     public Meeple(Player owner) {
         this.owner = owner;
@@ -20,6 +21,7 @@ public class Meeple {
 
     public boolean addMeepleToTile(Tile tile, int direction)
     {
+        cityTileList.removeAll(cityTileList);
         int total = 0;
         switch(tile.getSide(direction)){
             case CITY:
@@ -163,6 +165,7 @@ public class Meeple {
 
     private int checkEndCityPoints(Tile tile, int total)
     {
+
         if(!cityTileList.contains(tile)) cityTileList.add(tile);
 
         if (tile == null) return ++total;
@@ -181,6 +184,146 @@ public class Meeple {
         return total;
 
     }
+
+    public boolean isCompleted(){return this.completedFeature;}
+
+    public void freeMeeple()
+    {
+        this.placedTile.freeMeeple(this);
+        this.placedTile = null;
+        this.completedFeature = false;
+        this.cityTileList = null;
+    }
+
+    public void updateMeeple()
+    {
+        if(this.checkMeepleCompleteness(placedTile,placedTile.getMeepleDirection(this)))
+        {
+            System.out.println("TRUE");
+        }
+    }
+    private boolean checkMeepleCompleteness(Tile tile, int direction)
+    {
+        cityTileList = null;
+        int total = 0;
+        switch(tile.getSide(direction)){
+            case CITY:
+                if(tile.hasConnectedCity())
+                {
+                    if (tile.getWestSide() == TYPE.CITY) {
+                        total += checkEndCityPoints(tile.getWestConnect(), total);
+                    }
+
+                    if (tile.getEastSide() == TYPE.CITY) {
+                        total += checkEndCityPoints(tile.getEastConnect(), total);
+                    }
+
+                    if (tile.getSouthSide() == TYPE.CITY) {
+                        total += checkEndCityPoints(tile.getSouthConnect(), total);
+                    }
+
+                    if (tile.getNorthSide() == TYPE.CITY) {
+                        total += checkEndCityPoints(tile.getNorthConnect(), total);
+                    }
+
+                    if(total == 0)
+                    {
+                        System.out.println("CITY COMPLETE SWITCH");
+                        return true;
+                    }
+                    else
+                    {
+
+                        System.out.println("CITY INCOMPLETE SWITCH");
+                        return false;
+                    }
+                }
+
+                else
+                {
+                    total = checkEndCityPoints(tile.getConnect(direction), 0);
+
+                    if(total == 0)
+                    {
+                        System.out.println("CITY COMPLETE SWITCH");
+                        return true;
+                    }
+                    else
+                    {
+                        System.out.println("CITY INCOMPLETE SWITCH");
+                        return false;
+                    }
+                }
+
+            case ROAD:
+                if(tile.isRoadEnd())
+                {
+                    if (checkEndRoadPoints(tile.getConnect(direction), oppositeDirection(direction), 0) == 1)
+                    {
+                        System.out.println("ROAD COMPLETE SWTICH");
+                        return true;
+                    }
+                    else
+                    {
+                        System.out.println("ROAD INCOMPLETE SWITCH");
+                        return false;
+                    }
+                }
+
+                else {
+
+                    if (tile.getWestSide() == TYPE.ROAD) {
+                        total += checkEndRoadPoints(tile.getWestConnect(), 1, 0);
+                    }
+
+                    if (tile.getEastSide() == TYPE.ROAD) {
+                        total += checkEndRoadPoints(tile.getEastConnect(), 3, 0);
+                    }
+
+                    if (tile.getSouthSide() == TYPE.ROAD) {
+                        total += checkEndRoadPoints(tile.getSouthConnect(), 0, 0);
+                    }
+
+                    if (tile.getNorthSide() == TYPE.ROAD) {
+                        total += checkEndRoadPoints(tile.getNorthConnect(), 2, 0);
+                    }
+
+                    if (total == 2) {
+                        System.out.println("ROAD COMPLETE SWITCH");
+                        return true;
+                    } else {
+                        System.out.println("ROAD INCOMPLETE SWITCH");
+                        return false;
+                    }
+                }
+
+            case FIELD:
+                if (tile.hasMonastery())
+                {
+                    if(tile.hasNorthConnect() &&
+                            tile.hasEastConnect() &&
+                            tile.hasSouthConnect() &&
+                            tile.hasWestConnect())
+                    {
+                        if (tile.getNorthConnect().hasEastConnect() &&
+                                tile.getNorthConnect().hasWestConnect() &&
+                                tile.getSouthConnect().hasEastConnect() &&
+                                tile.getSouthConnect().hasWestConnect())
+                        {
+                            System.out.println("MONASTERY COMPLETE SWITCH");
+                            return true;
+                        }
+                    }
+                    System.out.println("MONASTERY INCOMPLETE SWITCH");
+                    return false;
+                }
+
+                return false;
+        }
+        return false;
+
+    }
+
 
 
 }
