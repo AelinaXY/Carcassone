@@ -306,6 +306,7 @@ public class Tile {
             default -> null;
         };
     }
+    public boolean hasShield(){return shield;}
 }
 
 

@@ -30,12 +30,26 @@ public class Player {
         for (Meeple meeple:playerMeeples) {
             if(meeple.hasTile())
             {
- //
+                meeple.updateMeeple();
                 if(meeple.isCompleted())
                 {
-                    //playerScore += meeple.score();
+                    int scored = meeple.scoreMeeple();
+                    System.out.println("Player " + playerNumber + " scored " + scored + " points!");
+                    playerScore += scored;
                     meeple.freeMeeple();
                 }
+            }
+        }
+    }
+    public void finalMeeples()
+    {
+        for (Meeple meeple:playerMeeples) {
+            if(meeple.hasTile())
+            {
+                int scored = meeple.scoreMeeple();
+                System.out.println("Player " + playerNumber + " scored " + scored + " points!");
+                playerScore += scored;
+                meeple.freeMeeple();
             }
         }
     }

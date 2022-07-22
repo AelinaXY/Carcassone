@@ -215,4 +215,14 @@ public class TileController {
         }
         return placements;
     }
+
+    public String getBoardToString()
+    {
+        String placements = "";
+        for(Tile tile: tileBoard)
+        {
+            placements = placements + "[" + tile.getCoords()[0] + "," + tile.getCoords()[1] + "] ";
+        }
+        return placements;
+    }
 }
