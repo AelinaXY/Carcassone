@@ -189,8 +189,8 @@ public class Main {
                         Collections.shuffle(meeplePlacements);
 
                         if (meeplePlacements.get(0)[0] != -1) {
-                            meeple.addMeepleToTile(board.get(meeplePlacements.get(0)[0]), meeplePlacements.get(0)[1]);
                             System.out.println("Player " + playersList.get(0).getPlayerNumber() + " placed a meeple at [" + board.get(meeplePlacements.get(0)[0]).getCoords()[0] + "," + board.get(meeplePlacements.get(0)[0]).getCoords()[1] + "] with " + meeplePlacements.get(0)[1] + " direction.");
+                            meeple.addMeepleToTile(board.get(meeplePlacements.get(0)[0]), meeplePlacements.get(0)[1]);
                         }
                     }
                 }
