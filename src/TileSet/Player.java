@@ -6,7 +6,7 @@ import java.util.Collections;
 public class Player {
 
     private ArrayList<Meeple> playerMeeples = new ArrayList<>();
-    private int playerNumber, playerScore;
+    private int playerNumber, playerScore, aiType;
     private boolean ai;
 
     public Player(int playerNumber) {
@@ -68,6 +68,22 @@ public class Player {
 
     public int getPlayerScore() {
         return playerScore;
+    }
+
+    public void setAiType(int aiType) {
+        this.aiType = aiType;
+    }
+
+    public int getAiType() {
+        return aiType;
+    }
+
+    public void printMeepleLocations()
+    {
+        for(Meeple meeple: playerMeeples)
+        {
+            System.out.println(meeple + " is located at " + meeple.returnTile());
+        }
     }
 }
 

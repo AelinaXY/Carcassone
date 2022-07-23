@@ -15,6 +15,9 @@ public class Meeple {
     //Checks to see if a Meeple has a tile
     public boolean hasTile(){return placedTile != null;}
 
+    //Return Meeple Tile
+    public Tile returnTile(){return placedTile;}
+
     //Returns the opposite tile
     public int oppositeDirection(int i)
     {
@@ -351,23 +354,38 @@ public class Meeple {
                     boolean visitFlag = false;
                     if (this.placedTile.getWestSide() == TYPE.CITY && !visitFlag) {
                         total += checkEndCityPointsScore(this.placedTile.getWestConnect(), 0);
-                        visitFlag = true;
+                        if(this.placedTile.getWestConnect()!=null)
+                        {
+                            if(this.placedTile.getWestConnect().hasConnectedCity()){visitFlag = true;}
+                        }
                     }
 
                     if (this.placedTile.getEastSide() == TYPE.CITY && !visitFlag) {
                         total += checkEndCityPointsScore(this.placedTile.getEastConnect(), 0);
-                        visitFlag = true;
+                        if(this.placedTile.getEastConnect()!=null) {
+                            if (this.placedTile.getEastConnect().hasConnectedCity()) {
+                                visitFlag = true;
+                            }
+                        }
                     }
 
                     if (this.placedTile.getSouthSide() == TYPE.CITY && !visitFlag) {
                         total += checkEndCityPointsScore(this.placedTile.getSouthConnect(), 0);
-                        visitFlag = true;
+                        if(this.placedTile.getSouthConnect()!=null) {
+                            if (this.placedTile.getSouthConnect().hasConnectedCity()) {
+                                visitFlag = true;
+                            }
+                        }
 
                     }
 
                     if (this.placedTile.getNorthSide() == TYPE.CITY && !visitFlag) {
                         total += checkEndCityPointsScore(this.placedTile.getNorthConnect(), 0);
-                        visitFlag = true;
+                        if(this.placedTile.getNorthConnect()!=null) {
+                            if (this.placedTile.getNorthConnect().hasConnectedCity()) {
+                                visitFlag = true;
+                            }
+                        }
 
                     }
 
@@ -375,9 +393,15 @@ public class Meeple {
 
                 else
                 {
-                    if(!this.placedTile.hasConnectedCity() && !this.placedTile.getConnect(this.placedTile.getMeepleDirection(this)).hasConnectedCity())
-                    {
-                        total = 4;
+                    if(this.placedTile.getConnect(this.placedTile.getMeepleDirection(this)) != null) {
+                        if (!this.placedTile.hasConnectedCity() && !this.placedTile.getConnect(this.placedTile.getMeepleDirection(this)).hasConnectedCity()) {
+                            total = 4;
+                        }
+                        else
+                        {
+                            total = checkEndCityPointsScore(this.placedTile.getConnect(this.placedTile.getMeepleDirection(this)), 0);
+
+                        }
                     }
                     else
                     {
@@ -531,6 +555,96 @@ public class Meeple {
 
         return 2+total;
 
+    }
+
+    public boolean addMeepleToTileTest(Tile tile, int direction)
+    {
+        cityTileList.removeAll(cityTileList);
+        int total = 0;
+        switch(tile.getSide(direction)){
+            case CITY:
+                if(tile.hasConnectedCity())
+                {
+                    if (tile.getWestSide() == TYPE.CITY) {
+                        total += checkEndCityPoints(tile.getWestConnect(), total);
+                    }
+
+                    if (tile.getEastSide() == TYPE.CITY) {
+                        total += checkEndCityPoints(tile.getEastConnect(), total);
+                    }
+
+                    if (tile.getSouthSide() == TYPE.CITY) {
+                        total += checkEndCityPoints(tile.getSouthConnect(), total);
+                    }
+
+                    if (tile.getNorthSide() == TYPE.CITY) {
+                        total += checkEndCityPoints(tile.getNorthConnect(), total);
+                    }
+
+                    if (cityTotalCheckTest(total, tile, direction)) return true;
+                }
+
+                else
+                {
+                    total = checkEndCityPoints(tile.getConnect(direction), 0);
+
+                    if (cityTotalCheckTest(total, tile, direction)) return true;
+                }
+                break;
+
+            case ROAD:
+                if(tile.isRoadEnd())
+                {
+                    return checkEndRoadPoints(tile.getConnect(direction), oppositeDirection(direction), 0) != 1;
+                }
+
+                else {
+
+                    if (tile.getWestSide() == TYPE.ROAD) {
+                        total += checkEndRoadPoints(tile.getWestConnect(), 1, 0);
+                    }
+
+                    if (tile.getEastSide() == TYPE.ROAD) {
+                        total += checkEndRoadPoints(tile.getEastConnect(), 3, 0);
+                    }
+
+                    if (tile.getSouthSide() == TYPE.ROAD) {
+                        total += checkEndRoadPoints(tile.getSouthConnect(), 0, 0);
+                    }
+
+                    if (tile.getNorthSide() == TYPE.ROAD) {
+                        total += checkEndRoadPoints(tile.getNorthConnect(), 2, 0);
+                    }
+
+                    return total != 2;
+                }
+
+            case FIELD:
+                if (tile.hasMonastery())
+                {
+                    if(tile.hasNorthConnect() &&
+                            tile.hasEastConnect() &&
+                            tile.hasSouthConnect() &&
+                            tile.hasWestConnect())
+                    {
+                        return !tile.getNorthConnect().hasEastConnect() ||
+                                !tile.getNorthConnect().hasWestConnect() ||
+                                !tile.getSouthConnect().hasEastConnect() ||
+                                !tile.getSouthConnect().hasWestConnect();
+                    }
+                    return true;
+                }
+
+                return false;
+        }
+        return false;
+
+    }
+
+    //Total city check
+    private boolean cityTotalCheckTest(int total, Tile tile, int direction) {
+
+        return total != 0;
     }
 
 

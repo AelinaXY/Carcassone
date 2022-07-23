@@ -307,6 +307,14 @@ public class Tile {
         };
     }
     public boolean hasShield(){return shield;}
+
+    public boolean hasNoMeepleAt(int dir)
+    {
+        if (dir < 4 && dir > -1) {
+            return placedMeeples[dir]==null;
+        }
+        return false;
+    }
 }
 
 

@@ -208,12 +208,12 @@ public class TileController {
 
     public String getValidPlacementsToString()
     {
-        String placements = "";
+        StringBuilder placements = new StringBuilder();
         for(int[] coord: validPlacements)
         {
-            placements = placements + "[" + coord[0] + "," + coord[1] + "] ";
+            placements.append("[").append(coord[0]).append(",").append(coord[1]).append("] ");
         }
-        return placements;
+        return placements.toString();
     }
 
     public String getBoardToString()
@@ -224,5 +224,86 @@ public class TileController {
             placements = placements + "[" + tile.getCoords()[0] + "," + tile.getCoords()[1] + "] ";
         }
         return placements;
+    }
+    public ArrayList<Tile> getBoard()
+    {
+        return tileBoard;
+    }
+
+    public boolean placeTileBoardCheck(Tile placedTile, int[] coords)
+    {
+        if(validPlacements.stream().noneMatch((a -> Arrays.equals(a, coords))))
+        {
+            //System.out.println("INVALID INPUT COORDINATES");
+        }
+        else
+        {
+            boolean tileFlag = true;
+            Tile[] placementTiles = new Tile[]{null,null,null,null};
+            for(Tile i: tileBoard)
+            {
+                //Checks if the tile to the east can connect to the tile being placed
+                if(Arrays.equals(i.getCoords(),new int[]{coords[0] + 1, coords[1]}))
+                {
+                    if(!i.getWestSide().equals(placedTile.getEastSide()))
+                    {
+                        tileFlag = false;
+                        //System.out.println("East side of placed Tile does not connect to West side of tile on the ground");
+                        continue;
+                    }
+                    else
+                    {
+                        placementTiles[0] = i;
+                    }
+                }
+                //Checks if the tile to the west can connect to the tile being placed
+
+                if(Arrays.equals(i.getCoords(),new int[]{coords[0] - 1, coords[1]}))
+                {
+                    if(!i.getEastSide().equals(placedTile.getWestSide()))
+                    {
+                        tileFlag = false;
+                        //System.out.println("West side of placed Tile does not connect to East side of tile on the ground");
+                        continue;
+                    }
+                    else
+                    {
+                        placementTiles[1] = i;
+                    }
+                }
+                //Checks if the tile to the north can connect to the tile being placed
+                if(Arrays.equals(i.getCoords(),new int[]{coords[0], coords[1] + 1}))
+                {
+                    if(!i.getSouthSide().equals(placedTile.getNorthSide()))
+                    {
+                        tileFlag = false;
+                        //System.out.println("North side of placed Tile does not connect to South side of tile on the ground");
+                        continue;
+                    }
+                    else
+                    {
+                        placementTiles[2] = i;
+                    }
+                }
+                //Checks if the tile to the south can connect to the tile being placed
+
+                if(Arrays.equals(i.getCoords(),new int[]{coords[0], coords[1] - 1}))
+                {
+                    if(!i.getNorthSide().equals(placedTile.getSouthSide()))
+                    {
+                        tileFlag = false;
+                        //System.out.println("South side of placed Tile does not connect to North side of tile on the ground");
+                    }
+                    else
+                    {
+                        placementTiles[3] = i;
+                    }
+                }
+            }
+
+            return tileFlag;
+
+        }
+        return false;
     }
 }
