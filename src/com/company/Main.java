@@ -20,13 +20,15 @@ public class Main {
          */
         Scanner myScanner = new Scanner(System.in);
         TileController tileController = new TileController();
-        int numOfPlayers = -1;
-
+        int numOfPlayers = 4;
+/*
     while (!(numOfPlayers >= 1) || !(numOfPlayers <= 4))
     {
         System.out.println("How many players (2-4): ");
         numOfPlayers = myScanner.nextInt(); //FAILS IF THERE IS A NON INT INPUT
     }
+    */
+
 
         ArrayList<Player> playersList = new ArrayList<>();
 
@@ -146,6 +148,7 @@ public class Main {
                     //Building a list of all places a tile can be placed
                     ArrayList<int[]> allValidTilePlacements = new ArrayList<>(3);
                     Tile drawnTile = tileController.drawTile();
+                    System.out.println("Drawn Tile is: " + drawnTile.toOutputString());
                     ArrayList<int[]> validPlacements = tileController.getValidPlacements();
                     Collections.shuffle(validPlacements);
                     for (int i = 0; i < validPlacements.size(); i++) {
@@ -162,6 +165,7 @@ public class Main {
                         drawnTile.rotateRight();
                     }
                     tileController.placeTileBoard(drawnTile, new int[]{allValidTilePlacements.get(0)[0], allValidTilePlacements.get(0)[1]});
+                    System.out.println("Player " + playersList.get(0).getPlayerNumber() + " placed tile at [" + allValidTilePlacements.get(0)[0] + "," + allValidTilePlacements.get(0)[1] + "] with " + allValidTilePlacements.get(0)[2] + " rotate(s) right.");
 
                     //PHASE 2: Placing Meeple
                     Meeple meeple = playersList.get(0).getFirstFreeMeeple();
@@ -186,6 +190,7 @@ public class Main {
 
                         if (meeplePlacements.get(0)[0] != -1) {
                             meeple.addMeepleToTile(board.get(meeplePlacements.get(0)[0]), meeplePlacements.get(0)[1]);
+                            System.out.println("Player " + playersList.get(0).getPlayerNumber() + " placed a meeple at [" + board.get(meeplePlacements.get(0)[0]).getCoords()[0] + "," + board.get(meeplePlacements.get(0)[0]).getCoords()[1] + "] with " + meeplePlacements.get(0)[1] + " direction.");
                         }
                     }
                 }
