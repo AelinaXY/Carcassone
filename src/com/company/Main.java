@@ -38,6 +38,7 @@ public class Main {
             if (i > 0) {
                 playersList.get(i - 1).setAi(true);
                 playersList.get(i - 1).setAiType(1);
+                playersList.get(i - 1).setMeepleChance(i);
 
             }
         }
@@ -58,7 +59,7 @@ public class Main {
                 System.out.println("Drawn Tile is: " + drawnTile.toOutputString());
                 //STEP 2: Display Valid Locations
                 boolean locationFlag = false;
-                int xCoord, yCoord, placeVsRotate, rotateDirection;
+                int placeVsRotate, rotateDirection;
                 int[] placementCoord = {0, 0};
                 while (!locationFlag) {
                     System.out.print("Would you like to place the tile, or rotate it (1 or 2): ");
@@ -183,7 +184,9 @@ public class Main {
                             }
                         }
                         int meeplePlacementSize = meeplePlacements.size();
-                        for (int i = 0; i < meeplePlacementSize; i++) {
+                        //In a 4 AI game, Meeple Chance should be ~50% for player 1,
+                        //~33% for player 2, ~25% for player 3, ~20% for player 4
+                        for (int i = 0; i < meeplePlacementSize*playersList.get(0).getMeepleChance(); i++) {
                             meeplePlacements.add(new int[]{-1, 0});
                         }
                         Collections.shuffle(meeplePlacements);
