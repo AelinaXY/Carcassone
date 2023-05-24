@@ -143,7 +143,7 @@ public class TileController {
                 {
                     validPlacements.removeIf(a -> Arrays.equals(a,i.getCoords()));
                 }
-                System.out.println("SUCCESSFUL PLACEMENT");
+                // System.out.println("SUCCESSFUL PLACEMENT");
                 return true;
             }
 

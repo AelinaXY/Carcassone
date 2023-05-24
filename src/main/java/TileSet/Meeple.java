@@ -8,6 +8,8 @@ public class Meeple {
     private ArrayList<Tile> cityTileList = new ArrayList<>();
     private boolean completedFeature = false;
 
+    private boolean onRoadLoop = false;
+
     public Meeple(Player owner) {
         this.owner = owner;
     }
@@ -63,16 +65,16 @@ public class Meeple {
             case ROAD:
                 if(tile.isRoadEnd())
                 {
-                    if (checkEndRoadPoints(tile.getConnect(direction), oppositeDirection(direction), 0) == 1)
+                    if (checkEndRoadPoints(tile.getConnect(direction), oppositeDirection(direction), 0, tile) == 1)
                     {
-                        System.out.println("ROAD COMPLETE SWTICH");
+                        // System.out.println("ROAD COMPLETE SWTICH");
                         return false;
                     }
                     else
                     {
                         this.placedTile = tile;
                         tile.setMeeple(this, direction);
-                        System.out.println("ROAD INCOMPLETE SWITCH");
+                        // System.out.println("ROAD INCOMPLETE SWITCH");
                         return true;
                     }
                 }
@@ -80,28 +82,28 @@ public class Meeple {
                 else {
 
                     if (tile.getWestSide() == TYPE.ROAD) {
-                        total += checkEndRoadPoints(tile.getWestConnect(), 1, 0);
+                        total += checkEndRoadPoints(tile.getWestConnect(), 1, 0, tile);
                     }
 
                     if (tile.getEastSide() == TYPE.ROAD) {
-                        total += checkEndRoadPoints(tile.getEastConnect(), 3, 0);
+                        total += checkEndRoadPoints(tile.getEastConnect(), 3, 0, tile);
                     }
 
                     if (tile.getSouthSide() == TYPE.ROAD) {
-                        total += checkEndRoadPoints(tile.getSouthConnect(), 0, 0);
+                        total += checkEndRoadPoints(tile.getSouthConnect(), 0, 0, tile);
                     }
 
                     if (tile.getNorthSide() == TYPE.ROAD) {
-                        total += checkEndRoadPoints(tile.getNorthConnect(), 2, 0);
+                        total += checkEndRoadPoints(tile.getNorthConnect(), 2, 0, tile);
                     }
 
                     if (total == 2) {
-                        System.out.println("ROAD COMPLETE SWITCH");
+                        // System.out.println("ROAD COMPLETE SWITCH");
                         return false;
                     } else {
                         this.placedTile = tile;
                         tile.setMeeple(this, direction);
-                        System.out.println("ROAD INCOMPLETE SWITCH");
+                        // System.out.println("ROAD INCOMPLETE SWITCH");
                         return true;
                     }
                 }
@@ -119,13 +121,13 @@ public class Meeple {
                                 tile.getSouthConnect().hasEastConnect() &&
                                 tile.getSouthConnect().hasWestConnect())
                         {
-                            System.out.println("MONASTERY COMPLETE SWITCH");
+                            // System.out.println("MONASTERY COMPLETE SWITCH");
                             return false;
                         }
                     }
                     this.placedTile = tile;
                     tile.setMeeple(this, direction);
-                    System.out.println("MONASTERY INCOMPLETE SWITCH");
+                    // System.out.println("MONASTERY INCOMPLETE SWITCH");
                     return true;
                 }
 
@@ -140,21 +142,22 @@ public class Meeple {
 
         if(total == 0)
         {
-            System.out.println("CITY COMPLETE SWITCH");
+            // System.out.println("CITY COMPLETE SWITCH");
         }
         else
         {
             this.placedTile = tile;
             tile.setMeeple(this, direction);
-            System.out.println("CITY INCOMPLETE SWITCH");
+            // System.out.println("CITY INCOMPLETE SWITCH");
             return true;
         }
         return false;
     }
 
     //Checks a Roads end points
-    private int checkEndRoadPoints(Tile tile, int sideCameFrom, int total)
+    private int checkEndRoadPoints(Tile tile, int sideCameFrom, int total, Tile startTile)
     {
+        if (tile == startTile) return ++total;
         if (tile == null) return total;
 
         if (tile.isRoadEnd()) return ++total;
@@ -163,7 +166,7 @@ public class Meeple {
         {
             if(tile.getSide(i) == TYPE.ROAD && sideCameFrom != i)
             {
-                total = checkEndRoadPoints(tile.getConnect(i), oppositeDirection(i), total);
+                total = checkEndRoadPoints(tile.getConnect(i), oppositeDirection(i), total, startTile);
             }
         }
 
@@ -213,7 +216,7 @@ public class Meeple {
         if(this.checkMeepleCompleteness(placedTile,placedTile.getMeepleDirection(this)))
         {
             completedFeature = true;
-            System.out.println("COMPLETED CITY\r\nFREE MEEPLE");
+            // System.out.println("COMPLETED CITY\r\nFREE MEEPLE");
         }
     }
 
@@ -244,13 +247,13 @@ public class Meeple {
 
                     if(total == 0)
                     {
-                        System.out.println("CITY COMPLETE SWITCH");
+                        // System.out.println("CITY COMPLETE SWITCH");
                         return true;
                     }
                     else
                     {
 
-                        System.out.println("CITY INCOMPLETE SWITCH");
+                        // System.out.println("CITY INCOMPLETE SWITCH");
                         return false;
                     }
                 }
@@ -261,12 +264,12 @@ public class Meeple {
 
                     if(total == 0)
                     {
-                        System.out.println("CITY COMPLETE SWITCH");
+                        // System.out.println("CITY COMPLETE SWITCH");
                         return true;
                     }
                     else
                     {
-                        System.out.println("CITY INCOMPLETE SWITCH");
+                        // System.out.println("CITY INCOMPLETE SWITCH");
                         return false;
                     }
                 }
@@ -274,14 +277,14 @@ public class Meeple {
             case ROAD:
                 if(tile.isRoadEnd())
                 {
-                    if (checkEndRoadPoints(tile.getConnect(direction), oppositeDirection(direction), 0) == 1)
+                    if (checkEndRoadPoints(tile.getConnect(direction), oppositeDirection(direction), 0, tile) == 1)
                     {
-                        System.out.println("ROAD COMPLETE SWTICH");
+                        // System.out.println("ROAD COMPLETE SWTICH");
                         return true;
                     }
                     else
                     {
-                        System.out.println("ROAD INCOMPLETE SWITCH");
+                        // System.out.println("ROAD INCOMPLETE SWITCH");
                         return false;
                     }
                 }
@@ -289,26 +292,26 @@ public class Meeple {
                 else {
 
                     if (tile.getWestSide() == TYPE.ROAD) {
-                        total += checkEndRoadPoints(tile.getWestConnect(), 1, 0);
+                        total += checkEndRoadPoints(tile.getWestConnect(), 1, 0, tile);
                     }
 
                     if (tile.getEastSide() == TYPE.ROAD) {
-                        total += checkEndRoadPoints(tile.getEastConnect(), 3, 0);
+                        total += checkEndRoadPoints(tile.getEastConnect(), 3, 0, tile);
                     }
 
                     if (tile.getSouthSide() == TYPE.ROAD) {
-                        total += checkEndRoadPoints(tile.getSouthConnect(), 0, 0);
+                        total += checkEndRoadPoints(tile.getSouthConnect(), 0, 0, tile);
                     }
 
                     if (tile.getNorthSide() == TYPE.ROAD) {
-                        total += checkEndRoadPoints(tile.getNorthConnect(), 2, 0);
+                        total += checkEndRoadPoints(tile.getNorthConnect(), 2, 0, tile);
                     }
 
                     if (total == 2) {
-                        System.out.println("ROAD COMPLETE SWITCH");
+                        // System.out.println("ROAD COMPLETE SWITCH");
                         return true;
                     } else {
-                        System.out.println("ROAD INCOMPLETE SWITCH");
+                        // System.out.println("ROAD INCOMPLETE SWITCH");
                         return false;
                     }
                 }
@@ -326,11 +329,11 @@ public class Meeple {
                                 tile.getSouthConnect().hasEastConnect() &&
                                 tile.getSouthConnect().hasWestConnect())
                         {
-                            System.out.println("MONASTERY COMPLETE SWITCH");
+                            // System.out.println("MONASTERY COMPLETE SWITCH");
                             return true;
                         }
                     }
-                    System.out.println("MONASTERY INCOMPLETE SWITCH");
+                    // System.out.println("MONASTERY INCOMPLETE SWITCH");
                     return false;
                 }
 
@@ -347,6 +350,7 @@ public class Meeple {
         Tile tile = null;
         cityTileList.removeAll(cityTileList);
         int total = 0;
+        onRoadLoop = false;
         switch(this.placedTile.getSide(this.placedTile.getMeepleDirection(this))){
             case CITY:
                 if(this.placedTile.hasConnectedCity())
@@ -419,29 +423,29 @@ public class Meeple {
             case ROAD:
                 if(this.placedTile.isRoadEnd())
                 {
-                    total = checkEndRoadPointsScore(this.placedTile.getConnect(this.placedTile.getMeepleDirection(this)), oppositeDirection(this.placedTile.getMeepleDirection(this)), 0);
+                    total = checkEndRoadPointsScore(this.placedTile.getConnect(this.placedTile.getMeepleDirection(this)), oppositeDirection(this.placedTile.getMeepleDirection(this)), 0, placedTile);
                 }
 
                 else {
 
-                    if (this.placedTile.getWestSide() == TYPE.ROAD) {
-                        total += checkEndRoadPointsScore(this.placedTile.getWestConnect(), 1, 0);
+                    if (this.placedTile.getWestSide() == TYPE.ROAD && !onRoadLoop) {
+                        total += checkEndRoadPointsScore(this.placedTile.getWestConnect(), 1, 0, this.placedTile);
                     }
 
-                    if (this.placedTile.getEastSide() == TYPE.ROAD) {
-                        total += checkEndRoadPointsScore(this.placedTile.getEastConnect(), 3, 0);
+                    if (this.placedTile.getEastSide() == TYPE.ROAD && !onRoadLoop) {
+                        total += checkEndRoadPointsScore(this.placedTile.getEastConnect(), 3, 0, this.placedTile);
                     }
 
-                    if (this.placedTile.getSouthSide() == TYPE.ROAD) {
-                        total += checkEndRoadPointsScore(this.placedTile.getSouthConnect(), 0, 0);
+                    if (this.placedTile.getSouthSide() == TYPE.ROAD && !onRoadLoop) {
+                        total += checkEndRoadPointsScore(this.placedTile.getSouthConnect(), 0, 0,this.placedTile);
                     }
 
-                    if (this.placedTile.getNorthSide() == TYPE.ROAD) {
-                        total += checkEndRoadPointsScore(this.placedTile.getNorthConnect(), 2, 0);
+                    if (this.placedTile.getNorthSide() == TYPE.ROAD && !onRoadLoop) {
+                        total += checkEndRoadPointsScore(this.placedTile.getNorthConnect(), 2, 0,this.placedTile);
                     }
 
                 }
-                return total;
+                return total+1;
 
             case FIELD:
                 if (this.placedTile.hasMonastery())
@@ -514,8 +518,10 @@ public class Meeple {
     }
 
     //Goes through road and returns score
-    private int checkEndRoadPointsScore(Tile tile, int sideCameFrom, int total)
+    private int checkEndRoadPointsScore(Tile tile, int sideCameFrom, int total, Tile startTile)
     {
+
+        if (tile == startTile) {onRoadLoop = true; return total;}
         if (tile == null) return total;
 
         if (tile.isRoadEnd()) return ++total;
@@ -524,7 +530,7 @@ public class Meeple {
         {
             if(tile.getSide(i) == TYPE.ROAD && sideCameFrom != i)
             {
-                total = checkEndRoadPointsScore(tile.getConnect(i), oppositeDirection(i), total);
+                total = checkEndRoadPointsScore(tile.getConnect(i), oppositeDirection(i), total, startTile);
             }
         }
 
@@ -595,25 +601,25 @@ public class Meeple {
             case ROAD:
                 if(tile.isRoadEnd())
                 {
-                    return checkEndRoadPoints(tile.getConnect(direction), oppositeDirection(direction), 0) != 1;
+                    return checkEndRoadPoints(tile.getConnect(direction), oppositeDirection(direction), 0, tile) != 1;
                 }
 
                 else {
 
                     if (tile.getWestSide() == TYPE.ROAD) {
-                        total += checkEndRoadPoints(tile.getWestConnect(), 1, 0);
+                        total += checkEndRoadPoints(tile.getWestConnect(), 1, 0, tile);
                     }
 
                     if (tile.getEastSide() == TYPE.ROAD) {
-                        total += checkEndRoadPoints(tile.getEastConnect(), 3, 0);
+                        total += checkEndRoadPoints(tile.getEastConnect(), 3, 0, tile);
                     }
 
                     if (tile.getSouthSide() == TYPE.ROAD) {
-                        total += checkEndRoadPoints(tile.getSouthConnect(), 0, 0);
+                        total += checkEndRoadPoints(tile.getSouthConnect(), 0, 0, tile);
                     }
 
                     if (tile.getNorthSide() == TYPE.ROAD) {
-                        total += checkEndRoadPoints(tile.getNorthConnect(), 2, 0);
+                        total += checkEndRoadPoints(tile.getNorthConnect(), 2, 0, tile);
                     }
 
                     return total != 2;
@@ -646,6 +652,8 @@ public class Meeple {
 
         return total != 0;
     }
+
+    
 
 
 }

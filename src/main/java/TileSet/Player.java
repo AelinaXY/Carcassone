@@ -34,7 +34,7 @@ public class Player {
                 if(meeple.isCompleted())
                 {
                     int scored = meeple.scoreMeeple();
-                    System.out.println("Player " + playerNumber + " scored " + scored + " points!");
+                    // System.out.println("Player " + playerNumber + " scored " + scored + " points!");
                     playerScore += scored;
                     meeple.freeMeeple();
                 }
@@ -47,7 +47,7 @@ public class Player {
             if(meeple.hasTile())
             {
                 int scored = meeple.scoreMeeple();
-                System.out.println("Player " + playerNumber + " scored " + scored + " points!");
+                // System.out.println("Player " + playerNumber + " scored " + scored + " points!");
                 playerScore += scored;
                 meeple.freeMeeple();
             }
